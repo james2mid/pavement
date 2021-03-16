@@ -1,0 +1,21 @@
+{
+  "name": "pavement",
+  "private": true,
+  "version": "0.0.0",
+  "workspaces": [
+    "client",
+    "server"
+  ],
+  "scripts": {
+    "gen:sts": "sts server/api -o client/types/strapi",
+    "dev:client": "cd client && npx next",
+    "dev:server": "cd server && npx strapi develop",
+    "dev": "run-p dev:server dev:client"
+  },
+  "dependencies": {
+    "strapi-to-typescript": "^2.0.4"
+  },
+  "devDependencies": {
+    "npm-run-all": "^4.1.5"
+  }
+}

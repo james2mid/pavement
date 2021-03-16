@@ -1,0 +1,24 @@
+{
+  "kind": "singleType",
+  "collectionName": "about_page",
+  "info": {
+    "name": "AboutPage",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true,
+      "default": "About"
+    },
+    "content": {
+      "type": "richtext",
+      "required": true
+    }
+  }
+}

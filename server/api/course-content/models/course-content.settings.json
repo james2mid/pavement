@@ -1,0 +1,45 @@
+{
+  "kind": "collectionType",
+  "collectionName": "course_contents",
+  "info": {
+    "name": "CourseContent",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "readingTime": {
+      "type": "integer",
+      "required": true,
+      "default": 10,
+      "min": 0
+    },
+    "description": {
+      "type": "richtext",
+      "required": true
+    },
+    "feature": {
+      "model": "file",
+      "via": "related",
+      "allowedTypes": [
+        "files",
+        "images",
+        "videos"
+      ],
+      "plugin": "upload",
+      "required": false
+    },
+    "slug": {
+      "type": "uid",
+      "targetField": "title",
+      "required": true
+    }
+  }
+}
