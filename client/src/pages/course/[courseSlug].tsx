@@ -1,7 +1,7 @@
 import { LinkButton } from '@/components/ChakraNextLink'
 import { Multimedia } from '@/components/Multimedia'
 import { RichText } from '@/components/RichText'
-import { Course, CourseInfo, getAllCourses, getCourseBySlug } from '@/strapi'
+import { CourseInfo, getAllCourses, getCourseBySlug } from '@/strapi/courses'
 import { withPluralisedUnits } from '@/util'
 import {
   Box,
@@ -18,9 +18,10 @@ import {
 import { GetStaticPaths, GetStaticProps } from 'next'
 import { ParsedUrlQuery } from 'querystring'
 import React from 'react'
+import { ICourse } from 'types/strapi/course'
 
 interface Props {
-  course: Course
+  course: ICourse
 }
 
 interface Params extends ParsedUrlQuery {

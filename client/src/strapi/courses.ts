@@ -1,16 +1,15 @@
 import { roundToNearest, withPluralisedUnits } from '@/util'
-import { ICourse, ICourseContent } from 'types/strapi'
+import { ICourse } from 'types/strapi/course'
 import { strapi } from './client'
 
-export type Course = ICourse
-export type CourseContent = ICourseContent
-
-export const getAllCourses = async (): Promise<Course[]> => {
+export const getAllCourses = async (): Promise<ICourse[]> => {
   const resp = await strapi.get<ICourse[]>('/courses')
   return resp.data
 }
 
-export const getCourseBySlug = async (slug: string): Promise<Course | null> => {
+export const getCourseBySlug = async (
+  slug: string,
+): Promise<ICourse | null> => {
   const resp = await strapi.get<ICourse[]>(`/courses?slug=${slug}`)
   const [course] = resp.data
 
@@ -23,7 +22,7 @@ export const getCourseBySlug = async (slug: string): Promise<Course | null> => {
 
 export namespace CourseInfo {
   /** Gets the reading time as a string given the number of minutes. */
-  export const readingTimeStr = (course: Course): string => {
+  export const readingTimeStr = (course: ICourse): string => {
     const readingTime = course.courseContent.reduce(
       (z, x) => z + x.readingTime,
       0,
@@ -39,6 +38,6 @@ export namespace CourseInfo {
     }
   }
 
-  export const partsStr = (course: Course): string =>
+  export const partsStr = (course: ICourse): string =>
     withPluralisedUnits('part', course.courseContent.length)
 }

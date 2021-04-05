@@ -9,4 +9,12 @@ module.exports = {
   env: ENV_VARS,
   publicRuntimeConfig: ENV_VARS,
   poweredByHeader: false,
+
+  redirects: () => [
+    {
+      source: '/',
+      destination: '/page/home',
+      permanent: true,
+    },
+  ],
 }

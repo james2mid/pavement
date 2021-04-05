@@ -1,13 +1,8 @@
 import { Link } from '@/components/ChakraNextLink'
 import { Multimedia } from '@/components/Multimedia'
 import { RichText } from '@/components/RichText'
-import {
-  Course,
-  CourseContent,
-  getAllCourses,
-  getCourseBySlug,
-  parseStrapiAsset,
-} from '@/strapi'
+import { parseStrapiAsset } from '@/strapi/assets'
+import { getAllCourses, getCourseBySlug } from '@/strapi/courses'
 import {
   Box,
   Flex,
@@ -23,11 +18,12 @@ import { GetStaticPaths, GetStaticProps } from 'next'
 import { ParsedUrlQuery } from 'querystring'
 import React from 'react'
 import { FaAlignLeft, FaFile, FaImage, FaMusic, FaVideo } from 'react-icons/fa'
-import { ICourseContent } from 'types/strapi'
+import { ICourse } from 'types/strapi/course'
+import { ICourseContent } from 'types/strapi/course-content'
 
 interface Props {
-  course: Course
-  part: CourseContent
+  course: ICourse
+  part: ICourseContent
 }
 
 interface Params extends ParsedUrlQuery {

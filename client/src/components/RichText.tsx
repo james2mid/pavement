@@ -1,5 +1,5 @@
 import { Multimedia } from '@/components/Multimedia'
-import { resolveStrapiPath } from '@/strapi'
+import { resolveStrapiPath } from '@/strapi/client'
 import { Heading, Stack, Text } from '@chakra-ui/react'
 import React from 'react'
 import ReactMarkdown from 'react-markdown'

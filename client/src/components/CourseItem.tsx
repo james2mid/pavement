@@ -1,11 +1,12 @@
 import { Link } from '@/components/ChakraNextLink'
 import { Multimedia } from '@/components/Multimedia'
-import { Course, CourseInfo } from '@/strapi'
+import { CourseInfo } from '@/strapi/courses'
 import { Badge, Box, BoxProps, Heading, HStack, Text } from '@chakra-ui/react'
 import React from 'react'
+import { ICourse } from 'types/strapi/course'
 
 interface Props extends BoxProps {
-  course: Course
+  course: ICourse
 }
 
 export const CourseItem: React.FC<Props> = ({ course }) => {

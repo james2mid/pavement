@@ -10,9 +10,11 @@
     "gen:sts": "sts server/api -o client/types/strapi",
     "dev:client": "cd client && npx next",
     "dev:server": "cd server && npx strapi develop",
-    "dev": "run-p dev:server dev:client"
+    "dev": "run-p dev:server dev:client",
+    "clean": "rimraf client/node_modules client/yarn.lock client/package-lock.json server/node_modules server/yarn.lock server/package-lock.json node_modules yarn.lock package-lock.json"
   },
   "dependencies": {
+    "rimraf": "^3.0.2",
     "strapi-to-typescript": "^2.0.4"
   },
   "devDependencies": {

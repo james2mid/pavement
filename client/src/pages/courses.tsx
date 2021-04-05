@@ -1,11 +1,12 @@
 import { CourseItem } from '@/components/CourseItem'
-import { Course, getAllCourses } from '@/strapi'
+import { getAllCourses } from '@/strapi/courses'
 import { Container, Heading, SimpleGrid, Text } from '@chakra-ui/react'
 import { GetStaticProps } from 'next'
 import React from 'react'
+import { ICourse } from 'types/strapi/course'
 
 interface Props {
-  courses: Course[]
+  courses: ICourse[]
 }
 
 export const getStaticProps: GetStaticProps<Props> = async () => {

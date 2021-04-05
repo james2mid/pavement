@@ -1,5 +1,5 @@
 import { RichText } from '@/components/RichText'
-import { getAllPages, getPageBySlug } from '@/strapi'
+import { getAllPages, getPageBySlug } from '@/strapi/pages'
 import { Container } from '@chakra-ui/layout'
 import { Heading } from '@chakra-ui/react'
 import { GetStaticPaths, GetStaticProps } from 'next'
