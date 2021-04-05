@@ -49,8 +49,8 @@ dist
 build
 out
 nbproject
-public/uploads/*
-!public/uploads/.gitkeep
+**/public/uploads/*
+!**/public/uploads/.gitkeep
 
 ############################
 # Node.js

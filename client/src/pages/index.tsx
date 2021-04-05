@@ -1,16 +1,17 @@
-import { Box, Heading, Text } from '@chakra-ui/react'
-import { NextPage } from 'next'
-import React from 'react'
+import { GetStaticProps } from 'next'
 
-const Home: NextPage = () => {
-  return (
-    <Box>
-      <Box my={20} textAlign="center">
-        <Heading>We help people find their path</Heading>
-        <Text>Adipiscing etiam lobortis nunc nisi varius tempus</Text>
-      </Box>
-    </Box>
-  )
+export const getStaticProps: GetStaticProps = async () => {
+  console.log('visiting index')
+  return {
+    redirect: {
+      destination: '/page/home',
+      permanent: true,
+    },
+  }
 }
 
-export default Home
+const index: React.FC = () => {
+  return <></>
+}
+
+export default index

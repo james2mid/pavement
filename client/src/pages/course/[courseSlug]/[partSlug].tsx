@@ -1,25 +1,29 @@
-import { Link } from '@/components/Link'
+import { Link } from '@/components/ChakraNextLink'
+import { Multimedia } from '@/components/Multimedia'
 import { RichText } from '@/components/RichText'
 import {
   Course,
   CourseContent,
   getAllCourses,
   getCourseBySlug,
-  getImage,
+  parseStrapiAsset,
 } from '@/strapi'
 import {
   Box,
-  Divider,
   Flex,
   Heading,
-  Img,
-  StackDivider,
+  HStack,
+  Icon,
+  StackItem,
   Text,
   useColorModeValue,
+  VStack,
 } from '@chakra-ui/react'
 import { GetStaticPaths, GetStaticProps } from 'next'
 import { ParsedUrlQuery } from 'querystring'
 import React from 'react'
+import { FaAlignLeft, FaFile, FaImage, FaMusic, FaVideo } from 'react-icons/fa'
+import { ICourseContent } from 'types/strapi'
 
 interface Props {
   course: Course
@@ -94,65 +98,96 @@ export const getStaticProps: GetStaticProps<Props, Params> = async ({
 }
 
 const coursePart: React.FC<Props> = ({ course, part }) => {
+  const getPartIcon = (part: ICourseContent) => {
+    const asset = part.feature ? parseStrapiAsset(part.feature) : null
+
+    switch (asset?.assetType) {
+      case 'image':
+        return FaImage
+      case 'audio':
+        return FaMusic
+      case 'video':
+        return FaVideo
+      case 'document':
+        return FaFile
+      default:
+        return FaAlignLeft
+    }
+  }
+
+  const isPartSelected = (p: ICourseContent) => {
+    return p.id === part.id
+  }
+
   return (
-    <Box bgColor={useColorModeValue('gray.100', 'gray.700')} py="10">
-      <Flex maxW="4xl" mx="auto">
-        <Flex
-          minWidth="xs"
-          direction="column"
-          height="min-content"
-          align="flex-start"
-          p="5"
-          mt="20"
-          roundedLeft="md"
-          bgColor={useColorModeValue('white', 'gray.900')}
-          border="1px"
-          borderColor={useColorModeValue('gray.200', 'gray.700')}
-          divider={<StackDivider />}
-        >
-          <Heading as="h3" size="md" my="3">
+    <Flex maxW="container.lg" mx="auto" mt={30}>
+      <Flex
+        minWidth="xs"
+        direction="column"
+        height="min-content"
+        align="flex-start"
+        p={5}
+        mr={13}
+        mt={89}
+        rounded="xl"
+        bgColor={useColorModeValue('gray.100', 'gray.700')}
+        shadow="md"
+      >
+        <Box ml={2} my={5}>
+          <Heading as="h2" size="lg" noOfLines={3}>
             {course.title}
           </Heading>
-          {course.courseContent.map((x, index) => (
-            <Box key={index} w="100%">
-              <Divider />
-              <Link href={`/course/${course.slug}/${x.slug}`}>
-                <Box py="5">
-                  <Text fontWeight={x.id === part.id ? 'semibold' : 'initial'}>
-                    {index + 1}. {x.title}
-                  </Text>
-                </Box>
-              </Link>
-            </Box>
-          ))}
-        </Flex>
-        <Box
-          p="10"
-          bgColor={useColorModeValue('white', 'gray.900')}
-          shadow="md"
-          rounded="md"
-        >
-          <Heading size="xl" mb="5">
-            {part.title}
-          </Heading>
-
-          {part.feature && (
-            <Img
-              {...getImage(part.feature, 'large')}
-              maxH="500px"
-              display="block"
-              mr="3"
-              mb="7"
-              fit="cover"
-              minW="100%"
-              rounded={5}
-            />
-          )}
-
-          <RichText content={part.description} />
         </Box>
+
+        <VStack spacing={1}>
+          {course.courseContent.map((x, index) => (
+            <StackItem
+              key={index}
+              w="100%"
+              bg={isPartSelected(x) ? 'gray.100' : 'initial'}
+            >
+              <Link href={`/course/${course.slug}/${x.slug}`}>
+                <HStack
+                  align="center"
+                  spacing={3}
+                  bg={
+                    isPartSelected(x)
+                      ? useColorModeValue('gray.200', 'gray.600')
+                      : 'initial'
+                  }
+                  px={5}
+                  py={3}
+                  rounded="lg"
+                >
+                  <Text fontWeight="semibold">{index + 1}</Text>
+                  <Icon
+                    as={getPartIcon(x)}
+                    color={useColorModeValue('gray.600', 'white')}
+                  />
+                  <Text
+                    fontWeight={isPartSelected(x) ? 'semibold' : 'initial'}
+                    noOfLines={2}
+                  >
+                    {x.title}
+                  </Text>
+                </HStack>
+              </Link>
+            </StackItem>
+          ))}
+        </VStack>
       </Flex>
-    </Box>
+      <Box px="8" py="13" w="100%">
+        <Heading size="xl" mb={5}>
+          {part.title}
+        </Heading>
+
+        {part.feature && (
+          <Multimedia strapiAsset={part.feature} imageFormat="medium" my={8} />
+        )}
+
+        <RichText content={part.description} />
+      </Box>
+    </Flex>
   )
 }
 

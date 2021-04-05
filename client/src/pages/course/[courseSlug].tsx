@@ -1,16 +1,12 @@
+import { LinkButton } from '@/components/ChakraNextLink'
+import { Multimedia } from '@/components/Multimedia'
 import { RichText } from '@/components/RichText'
-import {
-  Course,
-  CourseInfo,
-  getAllCourses,
-  getCourseBySlug,
-  getImage,
-} from '@/strapi'
+import { Course, CourseInfo, getAllCourses, getCourseBySlug } from '@/strapi'
+import { withPluralisedUnits } from '@/util'
 import {
   Box,
   Container,
   Heading,
-  Image,
   Table,
   Tbody,
   Td,
@@ -19,7 +15,6 @@ import {
   Thead,
   Tr,
 } from '@chakra-ui/react'
-import { LinkButton } from 'chakra-next-link'
 import { GetStaticPaths, GetStaticProps } from 'next'
 import { ParsedUrlQuery } from 'querystring'
 import React from 'react'
@@ -35,8 +30,12 @@ interface Params extends ParsedUrlQuery {
 export const getStaticPaths: GetStaticPaths<Params> = async () => {
   const courses = await getAllCourses()
 
+  const paths = courses
+    .map((x) => x.slug)
+    .map((courseSlug) => ({ params: { courseSlug } }))
+
   return {
-    paths: courses.map((course) => ({ params: { courseSlug: course.slug } })),
+    paths,
     fallback: true,
   }
 }
@@ -67,14 +66,10 @@ export const getStaticProps: GetStaticProps<Props, Params> = async ({
 const course: React.FC<Props> = ({ course }) => {
   return (
     <Container maxW="container.md">
-      <Image
-        {...getImage(course.thumbnail, 'large')}
-        height="200px"
-        display="block"
-        mr="3"
-        fit="cover"
-        minW="100%"
-        rounded={5}
+      <Multimedia
+        strapiAsset={course.thumbnail}
+        imageFormat="medium"
+        maxH="300px"
       />
 
       <Heading size="2xl" mt={10} mb={5}>
@@ -94,7 +89,7 @@ const course: React.FC<Props> = ({ course }) => {
           Content
         </Heading>
 
-        <Text fontStyle="oblique">
+        <Text fontStyle="oblique" mb={2}>
           This course has {CourseInfo.partsStr(course)}, with a total study time
           of {CourseInfo.readingTimeStr(course)}.
         </Text>
@@ -112,7 +107,7 @@ const course: React.FC<Props> = ({ course }) => {
               <Tr key={index}>
                 <Td isNumeric>{index + 1}</Td>
                 <Td>{x.title}</Td>
-                <Td>{CourseInfo.readingTimeStr(course)}</Td>
+                <Td>{withPluralisedUnits('min', x.readingTime)}</Td>
               </Tr>
             ))}
           </Tbody>

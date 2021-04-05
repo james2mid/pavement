@@ -1,31 +1,21 @@
-import { Link } from '@/components/Link'
-import { Course, getImage } from '@/strapi'
-import {
-  Badge,
-  Box,
-  BoxProps,
-  Heading,
-  HStack,
-  Image,
-  Text,
-} from '@chakra-ui/react'
+import { Link } from '@/components/ChakraNextLink'
+import { Multimedia } from '@/components/Multimedia'
+import { Course, CourseInfo } from '@/strapi'
+import { Badge, Box, BoxProps, Heading, HStack, Text } from '@chakra-ui/react'
 import React from 'react'
 
 interface Props extends BoxProps {
   course: Course
 }
 
-export const CourseItem: React.FC<Props> = ({ course, ...props }) => {
+export const CourseItem: React.FC<Props> = ({ course }) => {
   return (
     <Link href={`/course/${course.slug}`}>
-      <Box cursor="pointer" w="100%" {...props}>
-        <Image
-          {...getImage(course.thumbnail, 'medium')}
-          rounded={5}
-          width="100%"
-          height="200px"
-          fit="cover"
-          loading="lazy"
+      <Box cursor="pointer" w="100%">
+        <Multimedia
+          strapiAsset={course.thumbnail}
+          imageFormat={'medium'}
+          h="200px"
           shadow="md"
           mb={5}
         />
@@ -40,7 +30,7 @@ export const CourseItem: React.FC<Props> = ({ course, ...props }) => {
                 : `£${Math.round(course.price / 100)}`}
             </Badge>
             <span>&middot;</span>
-            <Text size="sm">{course.readingTimeString}</Text>
+            <Text size="sm">{CourseInfo.readingTimeStr(course)}</Text>
           </HStack>
           <Text size="lg" noOfLines={2} textDecoration="none">
             {course.description}

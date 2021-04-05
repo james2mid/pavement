@@ -1,4 +1,4 @@
-import { Link } from '@/components/Link'
+import { Link } from '@/components/ChakraNextLink'
 import {
   Box,
   Flex,
@@ -25,7 +25,7 @@ const navItems: HeaderItemProps[] = [
   },
   {
     text: 'About',
-    path: '/about',
+    path: '/page/about',
   },
 ]
 

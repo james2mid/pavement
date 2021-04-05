@@ -1,75 +1,30 @@
-import { FaFileDownload } from 'react-icons/fa'
-import { IoDocumentTextOutline } from 'react-icons/io5'
-import { IconType } from 'react-icons/lib'
-import {
-  SiMicrosoftexcel,
-  SiMicrosoftpowerpoint,
-  SiMicrosoftword,
-} from 'react-icons/si'
-import { resolveStrapiPath } from '.'
+import { Asset, getAssetType } from '../util'
+import { resolveStrapiPath } from './client'
 
-export type AssetType = 'image' | 'video' | 'document'
+export type StrapiImageFormat = 'thumbnail' | 'small' | 'medium' | 'large'
 
-const documentIcons: Record<string, IconType> = {
-  doc: SiMicrosoftword,
-  docx: SiMicrosoftword,
-  txt: IoDocumentTextOutline,
-  ppt: SiMicrosoftpowerpoint,
-  pptx: SiMicrosoftpowerpoint,
-  xls: SiMicrosoftexcel,
-  xlsx: SiMicrosoftexcel,
-}
+export const parseStrapiAsset = (
+  asset: any,
+  imageFormat?: StrapiImageFormat,
+): Asset | null => {
+  imageFormat ??= 'small'
 
-export function getDocumentIcon(path: string): IconType {
-  path = path.toLowerCase()
-
-  const [_, icon] =
-    Object.entries(documentIcons).find(([ext]) => path.endsWith(ext)) || []
-
-  return icon || FaFileDownload
-}
-
-const assetTypes: Record<AssetType, string[]> = {
-  image: ['jpg', 'jpeg', 'png', 'gif', 'svg', 'webp'],
-  video: ['mp4', 'ogg', 'webm'],
-  document: Object.keys(documentIcons),
-}
-
-export function getAssetType(path: string): AssetType | null {
-  path = path.toLowerCase()
-
-  for (const assetType of Object.keys(assetTypes) as AssetType[]) {
-    if (assetTypes[assetType].some((x) => path.endsWith(x))) {
-      return assetType
-    }
+  if (!asset || typeof asset !== 'object' || !asset.url) {
+    return null
   }
 
-  return null
-}
+  const rawUrl: string = asset.url
+  const assetType = getAssetType(rawUrl)
 
-type ImageFormat = 'thumbnail' | 'small' | 'medium' | 'large'
+  const src = resolveStrapiPath(
+    assetType === 'image' ? asset.formats?.[imageFormat].url : rawUrl,
+  )
 
-interface Image {
-  src: string
-  alt: string
-}
-
-export function getImage(
-  media: any | undefined,
-  format: ImageFormat,
-): Image | null {
-  if (!media) {
-    return {
-      src: process.env.NEXT_PUBLIC_FALLBACK_IMAGE_SRC || '',
-      alt: 'Fallback image',
-    }
-  }
-
-  const f = media.formats[format]
-  const src = resolveStrapiPath(f.url)
+  const alt: string = asset.alternativeText || ''
 
   return {
+    assetType,
     src,
-    alt: media.alternativeText,
+    alt,
   }
 }

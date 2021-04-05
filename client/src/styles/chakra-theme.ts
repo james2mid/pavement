@@ -1,5 +1,19 @@
 import { extendTheme } from '@chakra-ui/react'
 
+const noFocusOutline = {
+  baseStyle: {
+    track: {
+      _focus: {
+        outline: 'none',
+      },
+    },
+  },
+}
+
 export default extendTheme({
-  // add appropriate properties here
+  components: {
+    Link: noFocusOutline,
+    Header: noFocusOutline,
+    IconButton: noFocusOutline,
+  },
 })

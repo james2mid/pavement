@@ -9,7 +9,8 @@ interface Props {
 }
 
 export const getStaticProps: GetStaticProps<Props> = async () => {
-  const courses = Array.from(Array(7)).fill((await getAllCourses())[0]!)
+  // const courses = Array.from(Array(7)).fill((await getAllCourses())[0]!)
+  const courses = await getAllCourses()
 
   return {
     props: {
@@ -27,7 +28,7 @@ const courses: React.FC<Props> = ({ courses }) => {
       <Text as="h3" size="lg" mb={10} textAlign="center">
         An opportunity to explore your inner being.
       </Text>
-      <SimpleGrid gap={8} bgColor="blue.100" minChildWidth="250px">
+      <SimpleGrid columns={[1, 2, null, 3]} gap={[5, null, 8]}>
         {courses.map((course, index) => (
           <CourseItem course={course} key={index} />
         ))}

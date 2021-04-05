@@ -1,4 +1,4 @@
-import { Media } from '@/components/Media'
+import { Multimedia } from '@/components/Multimedia'
 import { resolveStrapiPath } from '@/strapi'
 import { Heading, Stack, Text } from '@chakra-ui/react'
 import React from 'react'
@@ -16,7 +16,7 @@ const renderers = {
       return <></>
     }
 
-    if (firstNode.props.node.type === 'image') {
+    if (firstNode.props?.node?.type === 'image') {
       return <>{props.children}</>
     }
 
@@ -47,9 +47,8 @@ const renderers = {
 
   image: (props: { src: string; alt: string }) => {
     // Strapi embeds all assets in Markdown as an image reference
-    // Detect the type of asset using the file extension
 
-    return <Media {...props} />
+    return <Multimedia markdownAsset={props} maxH="25em" />
   },
 }
 

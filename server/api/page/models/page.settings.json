@@ -1,0 +1,29 @@
+{
+  "kind": "collectionType",
+  "collectionName": "pages",
+  "info": {
+    "name": "Page",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true,
+      "unique": false
+    },
+    "slug": {
+      "type": "uid",
+      "targetField": "title",
+      "required": true
+    },
+    "body": {
+      "type": "richtext",
+      "required": true
+    }
+  }
+}

@@ -30,9 +30,12 @@ export namespace CourseInfo {
     )
 
     if (readingTime < 45) {
-      return withPluralisedUnits('min', roundToNearest(readingTime, 10))
+      return withPluralisedUnits('min', readingTime)
     } else {
-      return withPluralisedUnits('hr', roundToNearest(readingTime, 60) / 60)
+      return (
+        'about ' +
+        withPluralisedUnits('hr', roundToNearest(readingTime, 60) / 60)
+      )
     }
   }
 
