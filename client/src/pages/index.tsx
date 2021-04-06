@@ -1,7 +1,6 @@
 import { GetStaticProps } from 'next'
 
 export const getStaticProps: GetStaticProps = async () => {
-  console.log('visiting index')
   return {
     redirect: {
       destination: '/page/home',

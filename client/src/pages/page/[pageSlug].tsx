@@ -16,14 +16,11 @@ interface Params extends ParsedUrlQuery {
 }
 
 export const getStaticPaths: GetStaticPaths<Params> = async () => {
-  console.log('getStaticPaths')
   const pages = await getAllPages()
 
   const paths = pages
     .map((x) => x.slug)
     .map((pageSlug) => ({ params: { pageSlug } }))
-
-  console.log('paths', paths)
 
   return {
     paths,
@@ -34,8 +31,6 @@ export const getStaticPaths: GetStaticPaths<Params> = async () => {
 export const getStaticProps: GetStaticProps<Props, Params> = async ({
   params,
 }) => {
-  console.log('getStaticProps')
-
   const slug = params?.pageSlug!
 
   if (!slug) {
@@ -49,8 +44,6 @@ export const getStaticProps: GetStaticProps<Props, Params> = async ({
 
   const page = await getPageBySlug(slug)
 
-  console.log('page', page)
-
   if (!page) {
     return {
       notFound: true,
@@ -63,13 +56,13 @@ export const getStaticProps: GetStaticProps<Props, Params> = async ({
 }
 
 const page: React.FC<Props> = ({ page }) => {
-  console.log('viewPage')
-
   return (
     <Container mt={20} mb={10}>
-      <Heading size="3xl" align="center" mb={20}>
-        {page.title}
-      </Heading>
+      {page.title && (
+        <Heading size="3xl" align="center" mb={20}>
+          {page.title}
+        </Heading>
+      )}
       <RichText content={page.body} />
     </Container>
   )
