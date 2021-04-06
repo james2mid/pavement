@@ -137,11 +137,7 @@ const coursePart: React.FC<Props> = ({ course, part }) => {
 
         <VStack spacing={1}>
           {course.courseContent.map((x, index) => (
-            <StackItem
-              key={index}
-              w="100%"
-              bg={isPartSelected(x) ? 'gray.100' : 'initial'}
-            >
+            <StackItem key={index} w="100%">
               <Link href={`/course/${course.slug}/${x.slug}`}>
                 <HStack
                   align="center"
